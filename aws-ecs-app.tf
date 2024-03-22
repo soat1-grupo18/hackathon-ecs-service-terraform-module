@@ -47,7 +47,7 @@ resource "aws_ecs_task_definition" "app" {
 
 resource "aws_ecs_service" "app" {
   cluster         = data.aws_ecs_cluster.this.arn
-  desired_count   = 5
+  desired_count   = 1
   launch_type     = "FARGATE"
   name            = var.app_name
   task_definition = aws_ecs_task_definition.app.arn
@@ -60,10 +60,10 @@ resource "aws_ecs_service" "app" {
   }
 
   network_configuration {
-    subnets = data.aws_subnets.default.ids
+    subnets = data.aws_subnets.fiap_private.ids
     # assign_public_ip = true is required to pull images from docker hub when it on a public subnet
     # docs: https://docs.aws.amazon.com/AmazonECS/latest/userguide/fargate-task-networking.html
-    assign_public_ip = true
+    assign_public_ip = false
     security_groups  = [aws_security_group.app.id]
   }
 
@@ -83,7 +83,7 @@ resource "aws_ecs_service" "app" {
 resource "aws_ecr_repository" "app" {
   name = var.app_name
   # IMMUTABLE is a better option because it making rollback and troubleshooting simpler! 
-  image_tag_mutability = "MUTABLE"
+  image_tag_mutability = "IMMUTABLE"
   force_delete         = true
 
   image_scanning_configuration {

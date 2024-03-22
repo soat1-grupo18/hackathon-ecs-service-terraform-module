@@ -1,14 +1,14 @@
 data "aws_lb" "lb_ingress" {
-  name = "my-lb-ingress"
+  name = "fiap-lb-ingress"
 }
 
-data "aws_lb_listener" "lb_ingress_http_prod" {
+data "aws_lb_listener" "lb_ingress_http" {
   load_balancer_arn = data.aws_lb.lb_ingress.arn
-  port              = 443
+  port              = 80
 }
 
-resource "aws_lb_listener_rule" "lb_ingress_http_prod_app" {
-  listener_arn = data.aws_lb_listener.lb_ingress_http_prod.arn
+resource "aws_lb_listener_rule" "lb_ingress_http_app" {
+  listener_arn = data.aws_lb_listener.lb_ingress_http.arn
 
   action {
     type             = "forward"
@@ -27,7 +27,7 @@ resource "aws_lb_target_group" "lb_ingress_app" {
   port        = var.app_docker_port
   protocol    = "HTTP"
   target_type = "ip"
-  vpc_id      = data.aws_vpc.default.id
+  vpc_id      = data.aws_vpc.fiap.id
 
   health_check {
     enabled = true

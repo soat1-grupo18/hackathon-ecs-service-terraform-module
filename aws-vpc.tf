@@ -1,22 +1,23 @@
-data "aws_vpc" "default" {
-  default = true
+data "aws_vpc" "fiap" {
+  tags = {
+    "fiap-vpc" = true
+  }
 }
 
-data "aws_subnets" "default" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.default.id]
+data "aws_subnets" "fiap_private" {
+  tags = {
+    "fiap-private-subnet" = true
   }
 }
 
 data "aws_security_group" "lb_ingress" {
-  name = "my-lb-ingress-sg"
+  name = "fiap-lb-ingress"
 }
 
 resource "aws_security_group" "app" {
   name        = format("%s-sg", var.app_name)
   description = "allows app traffic"
-  vpc_id      = data.aws_vpc.default.id
+  vpc_id      = data.aws_vpc.fiap.id
 
   ingress {
     description     = "app port"
