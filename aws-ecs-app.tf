@@ -68,7 +68,7 @@ resource "aws_ecs_service" "app" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.lb_ingress_app_blue.arn
+    target_group_arn = aws_lb_target_group.lb_ingress_app.arn
     container_name   = var.app_name
     container_port   = var.app_docker_port
   }
