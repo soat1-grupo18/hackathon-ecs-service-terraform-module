@@ -33,7 +33,7 @@ resource "aws_lb_target_group" "lb_ingress_app" {
     enabled = true
 
     healthy_threshold   = 2
-    interval            = 10
+    interval            = 30
     matcher             = "200-299"
     path                = var.app_health_check_path
     port                = "traffic-port"
