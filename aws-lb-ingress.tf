@@ -17,7 +17,7 @@ resource "aws_lb_listener_rule" "lb_ingress_http_app" {
 
   condition {
     host_header {
-      values = [format("%s.ogn.one", var.app_name)]
+      values = [format("%s.hackathon.fiap.local", var.app_name)]
     }
   }
 }
