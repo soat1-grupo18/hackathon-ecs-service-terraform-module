@@ -29,9 +29,7 @@ resource "aws_ecs_task_definition" "app" {
           protocol      = "tcp"
         }
       ]
-      environment = [
-        { name = "PORT", value = tostring(var.app_docker_port) }
-      ]
+      environment = var.app_environment_variables
       healthCheck = {
         command = [
           "CMD-SHELL",

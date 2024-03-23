@@ -10,6 +10,14 @@ variable "app_docker_port" {
   type = number
 }
 
+variable "app_environment_variables" {
+  type = list(object({
+    name  = string
+    value = string
+  }))
+  default = []
+}
+
 variable "app_health_check_path" {
   type = string
 }
