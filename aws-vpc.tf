@@ -24,7 +24,7 @@ resource "aws_security_group" "app" {
     from_port       = var.app_docker_port
     to_port         = var.app_docker_port
     protocol        = "tcp"
-    security_groups = [data.aws_security_group.lb_ingress.id]
+    cidr_blocks     = [data.aws_vpc.fiap.cidr_block]
   }
 
   egress {
